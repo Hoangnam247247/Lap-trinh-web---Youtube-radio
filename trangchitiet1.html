@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Youtube Radio</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/styles/trangchitiet1.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h1 class="logo">Youtube Radio</h1>
+        <input type="text" placeholder="Tìm Kiếm" class="search-input" />
+        <nav class="sidebar-nav">
+          <a href="index.html"><i class="fas fa-home"></i> Trang chủ</a>
+          <a href="#"><i class="fas fa-star"></i> Khám phá</a>
+          <a href="yeuthich.html"><i class="fas fa-heart"></i> Yêu thích</a>
+        </nav>
+      </aside>
+
+      <div class="main-content">
+        <div class="header-top">
+          <img src="assets/images/Tri kỷ cảm xúc.jpg" alt="Podcast" />
+          <div class="title-group">
+            <button
+              class="play-btn"
+              onclick="playEpisode('Tri Kỷ Cảm Xúc', 'assets/mp3/trikycamxuc.mp3', 'assets/images/Tri kỷ cảm xúc.jpg')"
+            >
+              <i class="fas fa-play"></i> Phát
+            </button>
+            <div class="title-main">Tri Kỷ Cảm Xúc - Web5ngay</div>
+            <div class="title-sub">
+              <br />Chương trình tâm lý - kỹ năng sống <br />
+              Từ tập 182, chương trình Tâm Sự Kinh Doanh chính thức đổi tên
+              thành Tri Kỷ Cảm Xúc.<br />
+            </div>
+          </div>
+        </div>
+
+        <div class="episode-list">
+          <h3>Danh sách tập:</h3>
+          <div
+            class="episode-item"
+            onclick="playEpisode('Tập 2: Làm chủ cảm xúc', 'assets/mp3/trikycamxuc2.mp3', 'assets/images/trangchitiet1.png')"
+          >
+            <img src="assets/images/trangchitiet1.png" alt="Tập 2" />
+            <div class="episode-text">Tập 2: Làm chủ cảm xúc</div>
+            <button
+              class="favorite-btn"
+              data-title="Tập 2: Làm chủ cảm xúc"
+              data-audio="assets/mp3/trikycamxuc2.mp3"
+              data-image="assets/images/trangchitiet1.png"
+              onclick="toggleFavorite"
+            >
+              <i class="fas fa-heart"></i>
+            </button>
+          </div>
+          <div
+            class="episode-item"
+            onclick="playEpisode('Tập 3: Kiên trì mỗi ngày', 'assets/mp3/trikicamxuc3.mp3', 'assets/images/trangchitiet11.png')"
+          >
+            <img src="assets/images/trangchitiet11.png" alt="Tập 3" />
+            <div class="episode-text">Tập 3: Kiên trì mỗi ngày</div>
+
+            <button
+              class="favorite-btn"
+              data-title="Tập 3: Kiên trì mỗi ngày"
+              data-audio="assets/mp3/trikicamxuc3.mp3"
+              data-image="assets/images/trangchitiet11.png"
+              onclick="toggleFavorite"
+            >
+              <i class="fas fa-heart"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="overall-rating">
+          <h3>Đánh giá từ người nghe:</h3>
+        </div>
+        <div class="review-section">
+          <h3>Đánh giá và bình luận</h3>
+
+          <!-- Đánh giá sao -->
+          <div class="rating-stars">
+            <span onclick="rateStar(1)">★</span>
+            <span onclick="rateStar(2)">★</span>
+            <span onclick="rateStar(3)">★</span>
+            <span onclick="rateStar(4)">★</span>
+            <span onclick="rateStar(5)">★</span>
+          </div>
+          <p id="ratingMessage"></p>
+
+          <!-- Khung bình luận -->
+          <textarea
+            id="userComment"
+            placeholder="Viết bình luận của bạn..."
+            rows="4"
+          ></textarea>
+          <button id="submitComment" onclick="submitComment()">
+            <i class="fas fa-paper-plane"></i> Gửi đánh giá
+          </button>
+
+          <!-- Hiển thị bình luận -->
+          <div id="commentDisplay"></div>
+        </div>
+        <style>
+          .review-section {
+            margin-top: 30px;
+            padding: 20px;
+            border-top: 2px solid #ccc;
+            background-color: #f9fafb;
+            border-radius: 8px;
+          }
+
+          .review-section h3 {
+            margin-bottom: 10px;
+            color: #111827;
+          }
+
+          .rating-stars {
+            font-size: 28px;
+            margin-bottom: 10px;
+          }
+
+          .rating-stars span {
+            cursor: pointer;
+            color: #d1d5db;
+            transition: color 0.2s;
+          }
+
+          .rating-stars span.selected {
+            color: #fbbf24; /* màu vàng */
+          }
+
+          #userComment {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+          }
+
+          #submitComment {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #7c3aed;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          }
+
+          #submitComment:hover {
+            background-color: #ffffff;
+            transform: scale(1.03);
+          }
+
+          #submitComment i {
+            font-size: 16px;
+          }
+
+          #submitComment:hover {
+            background-color: #1d4ed8;
+          }
+
+          #commentDisplay {
+            margin-top: 20px;
+            padding: 10px;
+            background: #eef2f7;
+            border-left: 4px solid #3b82f6;
+            border-radius: 5px;
+          }
+
+          #ratingMessage {
+            margin-top: 6px;
+            font-style: italic;
+            color: #4b5563;
+          }
+        </style>
+        <script>
+          // Kiểm tra người dùng đã đăng nhập hay chưa
+          function isLoggedIn() {
+            return localStorage.getItem("isLoggedIn") === "true";
+          }
+
+          // Xử lý đánh giá sao
+          function rateStar(star) {
+            if (!isLoggedIn()) {
+              alert("Bạn cần đăng nhập để đánh giá!");
+              return;
+            }
+
+            const stars = document.querySelectorAll(".rating-stars span");
+            stars.forEach((s, index) => {
+              s.classList.toggle("selected", index < star);
+            });
+
+            localStorage.setItem("userRating", star);
+            document.getElementById("ratingMessage").innerText =
+              "Bạn đã đánh giá " + star + " sao.";
+          }
+
+          // Xử lý gửi bình luận
+          function submitComment() {
+            if (!isLoggedIn()) {
+              alert("Bạn cần đăng nhập để bình luận!");
+              return;
+            }
+
+            const comment = document.getElementById("userComment").value.trim();
+            if (comment === "") {
+              alert("Vui lòng viết bình luận!");
+              return;
+            }
+
+            const username = localStorage.getItem("username") || "Người dùng";
+            const commentData = {
+              user: username,
+              text: comment,
+            };
+
+            localStorage.setItem("userComment", JSON.stringify(commentData));
+            showComment();
+            alert("Cảm ơn bạn đã gửi bình luận!");
+          }
+
+          // Hiển thị bình luận đã lưu
+          function showComment() {
+            const commentDisplay = document.getElementById("commentDisplay");
+            const stored = localStorage.getItem("userComment");
+
+            if (stored) {
+              const data = JSON.parse(stored);
+              commentDisplay.innerHTML = `<strong>${data.user}:</strong> ${data.text}`;
+            } else {
+              commentDisplay.innerHTML = "";
+            }
+          }
+
+          // Hiển thị đánh giá sao đã lưu
+          function showStarRating() {
+            const rating = parseInt(localStorage.getItem("userRating"));
+            const stars = document.querySelectorAll(".rating-stars span");
+
+            if (!isNaN(rating)) {
+              stars.forEach((s, index) => {
+                s.classList.toggle("selected", index < rating);
+              });
+
+              document.getElementById("ratingMessage").innerText =
+                "Bạn đã đánh giá " + rating + " sao.";
+            }
+          }
+
+          // Khi trang tải xong
+          document.addEventListener("DOMContentLoaded", () => {
+            showComment();
+            showStarRating();
+          });
+        </script>
+
+        <div class="recommended-section">
+          <div class="recommended-title">🎧 Bạn có thể yêu thích</div>
+          <div class="recommended-list">
+            <a href="trangchitiet2.html" class="recommended-item">
+              <img src="assets/images/Vì sao thế nhỉ.jpg" alt="Gợi ý 1" />
+              <div class="title">Vì sao thế nhỉ?</div>
+            </a>
+            <a href="" class="recommended-item">
+              <img src="assets/images/6 Minute English.jpg" alt="Gợi ý 2" />
+              <div class="title">Chuyện Nghề Podcast</div>
+            </a>
+            <a href="" class="recommended-item">
+              <img src="assets/images/Kể cho tôi nghe.jpg" alt="Gợi ý 3" />
+              <div class="title">Hành Trình Cảm Xúc</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="audio-player" id="playerBox">
+      <div class="audio-header">
+        <img id="playerImg" src="" alt="Ảnh" />
+        <div class="audio-info">
+          <div class="audio-title" id="playerTitle">Đang phát</div>
+          <audio
+            id="audioPlayer"
+            controls
+            style="width: 100%; margin-top: 8px"
+          ></audio>
+        </div>
+      </div>
+      <div class="audio-controls">
+        <button class="btn btn-toggle" onclick="toggleSize()">
+          🔄 Thu nhỏ / Phóng to
+        </button>
+        <button class="btn btn-close" onclick="closePlayer()">❌ Đóng</button>
+      </div>
+    </div>
+    <script src="context/trangchitiet.js"></script>
+  </body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Youtube Radio - Yêu thích</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/styles/stylee.css" />
+    <link rel="stylesheet" href="assets/styles/yeuthich.css" />
+  </head>
+  <body class="main-body">
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+      <div class="login-container">
+        <div class="login-header">
+          <h2 class="login-title">Đăng nhập</h2>
+          <button class="close-btn" id="closeLoginModal">&times;</button>
+        </div>
+        <div id="userLoggedIn" style="display: none">
+          <span id="usernameDisplay"></span>
+        </div>
+        <form class="login-form">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="Nhập email của bạn"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Mật khẩu</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Nhập mật khẩu"
+              required
+            />
+          </div>
+          <div class="login-actions">
+            <div class="remember-me">
+              <input type="checkbox" id="remember" />
+              <label for="remember">Ghi nhớ tôi</label>
+            </div>
+            <a href="#" class="forgot-password">Quên mật khẩu?</a>
+          </div>
+          <button type="submit" class="submit-btn">Đăng nhập</button>
+        </form>
+        <div class="login-footer">
+          Chưa có tài khoản? <a href="#" id="showRegister">Đăng ký ngay</a>
+        </div>
+      </div>
+    </div>
+    <!-- Register Modal -->
+    <div class="register-modal" id="registerModal">
+      <div class="register-container">
+        <div class="register-header">
+          <h2 class="register-title">Đăng ký</h2>
+          <button class="close-btn" id="closeRegisterModal">&times;</button>
+        </div>
+        <form class="register-form">
+          <div class="name-fields">
+            <div class="form-group">
+              <label for="firstName">Họ</label>
+              <input
+                type="text"
+                id="firstName"
+                placeholder="Nhập họ của bạn"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="lastName">Tên</label>
+              <input
+                type="text"
+                id="lastName"
+                placeholder="Nhập tên của bạn"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="regEmail">Email</label>
+            <input
+              type="email"
+              id="regEmail"
+              placeholder="Nhập email của bạn"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="regPassword">Mật khẩu</label>
+            <input
+              type="password"
+              id="regPassword"
+              placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)"
+              required
+              minlength="6"
+            />
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Xác nhận mật khẩu</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              placeholder="Nhập lại mật khẩu"
+              required
+            />
+          </div>
+          <button type="submit" class="submit-btn">Đăng ký</button>
+        </form>
+        <div class="register-footer">
+          Đã có tài khoản?
+          <a href="#" id="showLoginFromRegister">Đăng nhập ngay</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <h1 class="logo">Youtube Radio</h1>
+        <input type="text" placeholder="Tìm Kiếm" class="search-input" />
+        <nav class="sidebar-nav">
+          <a href="index.html"><i class="fas fa-home"></i> Trang chủ</a>
+          <a href="#"><i class="fas fa-star"></i> Khám phá</a>
+          <a href="yeuthich.html" class="active"
+            ><i class="fas fa-heart"></i> Yêu thích</a
+          >
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+          <h1 class="title">YÊU THÍCH</h1>
+          <div class="header-actions">
+            <button class="header-login-btn" id="showLoginModal">
+              <i class="fas fa-user"></i> Đăng nhập
+            </button>
+            <div id="userLoggedIn" style="display: none">
+              <button class="header-login-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Đăng xuất
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <!-- Nội dung chính -->
+        <div class="favorites-container">
+          <div class="not-logged-in" id="notLoggedIn">
+            <i class="fas fa-user-lock"></i>
+            <h2>Chưa đăng nhập</h2>
+            <p>Vui lòng đăng nhập để xem danh sách yêu thích của bạn</p>
+          </div>
+
+          <div class="favorites-list" id="favoritesList">
+            <h1 class="section-title">
+              <i class="fas fa-heart"></i> Danh sách yêu thích
+            </h1>
+            <div class="program-list" id="favoritesGrid"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div class="audio-player" id="playerBox"></div>
+
+    <script src="features/signin/SigninModal.js"></script>
+    <script src="context/yeuthich.js"></script>
+  </body>
+</html>

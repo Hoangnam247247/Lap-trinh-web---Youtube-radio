@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Youtube Radio</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/styles/trangchitiet1.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h1 class="logo">Youtube Radio</h1>
+        <input type="text" placeholder="Tìm Kiếm" class="search-input" />
+        <nav class="sidebar-nav">
+          <a href="index.html"><i class="fas fa-home"></i> Trang chủ</a>
+          <a href="#"><i class="fas fa-star"></i> Khám phá</a>
+          <a href="yeuthich.html"><i class="fas fa-heart"></i> Yêu thích</a>
+        </nav>
+      </aside>
+
+      <div class="main-content">
+        <div class="header-top">
+          <img src="assets/images/Thuần Podcast.jpg" alt="Podcast" />
+          <div class="title-group">
+            <button
+              class="play-btn"
+              onclick="playEpisode('Tri Kỷ Cảm Xúc', 'assets/mp3/thuan.mp3', 'assets/images/Thuần Podcast.jpg')"
+            >
+              <i class="fas fa-play"></i> Phát
+            </button>
+            <div class="title-main">Thuần PobCast - Thuần</div>
+            <div class="title-sub">
+              <br />
+              Cảm ơn! Cảm ơn vì đã ở lại! Cảm ơn vì ........ tất cả!
+            </div>
+          </div>
+        </div>
+
+        <div class="episode-list">
+          <h3>Danh sách tập:</h3>
+          <div
+            class="episode-item"
+            onclick="playEpisode('Tập 2: Làm chủ cảm xúc', 'assets/mp3/thuan2.mp3', 'assets/images/Thuần Podcast.jpg')"
+          >
+            <img src="assets/images/Thuần Podcast.jpg" alt="Tập 2" />
+            <div class="episode-text">Vị tết</div>
+            <button class="favorite-btn"><i class="fas fa-heart"></i></button>
+          </div>
+          <div
+            class="episode-item"
+            onclick="playEpisode('Tập 3: Kiên trì mỗi ngày', 'assets/mp3/trikicamxuc3.mp3', 'assets/images/trangchitiet11.png')"
+          >
+            <img src="assets/images/trangchitiet22.png" alt="Tập 3" />
+            <div class="episode-text">Cuộc đời cho bạn quả quýt</div>
+            <button class="favorite-btn"><i class="fas fa-heart"></i></button>
+          </div>
+        </div>
+
+        <div class="overall-rating">
+          <h3>Đánh giá từ người nghe:</h3>
+          <p style="font-size: 22px; color: #f59e0b">★ ★ ★ ★ ☆</p>
+          <p style="color: #4b5563">Dựa trên 1.234 lượt đánh giá</p>
+        </div>
+
+        <div class="recommended-section">
+          <div class="recommended-title">🎧 Bạn có thể yêu thích</div>
+          <div class="recommended-list">
+            <a href="" class="recommended-item">
+              <img src="assets/images/6 Minute English.jpg" alt="Gợi ý 1" />
+              <div class="title">6 Minute English</div>
+            </a>
+            <a href="" class="recommended-item">
+              <img src="assets/images/Better Version.jpg" alt="Gợi ý 2" />
+              <div class="title">Better Version</div>
+            </a>
+            <a href="" class="recommended-item">
+              <img src="assets/images/Kể cho tôi nghe.jpg" alt="Gợi ý 3" />
+              <div class="title">Kể cho tôi nghe</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="audio-player" id="playerBox">
+      <div class="audio-header">
+        <img id="playerImg" src="" alt="Ảnh" />
+        <div class="audio-info">
+          <div class="audio-title" id="playerTitle">Đang phát</div>
+          <audio
+            id="audioPlayer"
+            controls
+            style="width: 100%; margin-top: 8px"
+          ></audio>
+        </div>
+      </div>
+      <div class="audio-controls">
+        <button class="btn btn-toggle" onclick="toggleSize()">
+          🔄 Thu nhỏ / Phóng to
+        </button>
+        <button class="btn btn-close" onclick="closePlayer()">❌ Đóng</button>
+      </div>
+    </div>
+    <script src="context/trangchitiet.js"></script>
+  </body>
+</html>

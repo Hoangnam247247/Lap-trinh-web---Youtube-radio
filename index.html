@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Youtube Radio - Top Podcasts</title>
+    <link rel="stylesheet" href="assets/styles/stylee.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body class="main-body">
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+      <div class="login-container">
+        <div class="login-header">
+          <h2 class="login-title">Đăng nhập</h2>
+          <button class="close-btn" id="closeLoginModal">&times;</button>
+        </div>
+        <div id="userLoggedIn" style="display: none">
+          <span id="usernameDisplay"></span>
+        </div>
+        <form class="login-form">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="Nhập email của bạn"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Mật khẩu</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Nhập mật khẩu"
+              required
+            />
+          </div>
+          <div class="login-actions">
+            <div class="remember-me">
+              <input type="checkbox" id="remember" />
+              <label for="remember">Ghi nhớ tôi</label>
+            </div>
+            <a href="#" class="forgot-password">Quên mật khẩu?</a>
+          </div>
+          <button type="submit" class="submit-btn">Đăng nhập</button>
+        </form>
+        <div class="login-footer">
+          Chưa có tài khoản? <a href="#" id="showRegister">Đăng ký ngay</a>
+        </div>
+      </div>
+    </div>
+    <!-- Register Modal -->
+    <div class="register-modal" id="registerModal">
+      <div class="register-container">
+        <div class="register-header">
+          <h2 class="register-title">Đăng ký</h2>
+          <button class="close-btn" id="closeRegisterModal">&times;</button>
+        </div>
+        <form class="register-form">
+          <div class="name-fields">
+            <div class="form-group">
+              <label for="firstName">Họ</label>
+              <input
+                type="text"
+                id="firstName"
+                placeholder="Nhập họ của bạn"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="lastName">Tên</label>
+              <input
+                type="text"
+                id="lastName"
+                placeholder="Nhập tên của bạn"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="regEmail">Email</label>
+            <input
+              type="email"
+              id="regEmail"
+              placeholder="Nhập email của bạn"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="regPassword">Mật khẩu</label>
+            <input
+              type="password"
+              id="regPassword"
+              placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)"
+              required
+              minlength="6"
+            />
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Xác nhận mật khẩu</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              placeholder="Nhập lại mật khẩu"
+              required
+            />
+          </div>
+          <button type="submit" class="submit-btn">Đăng ký</button>
+        </form>
+        <div class="register-footer">
+          Đã có tài khoản?
+          <a href="#" id="showLoginFromRegister">Đăng nhập ngay</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <h1 class="logo">Youtube Radio</h1>
+        <input type="text" placeholder="Tìm Kiếm" class="search-input" />
+        <nav class="sidebar-nav">
+          <a href="index.html"><i class="fas fa-home"></i> Trang chủ</a>
+          <a href="#"><i class="fas fa-star"></i> Khám phá</a>
+          <a href="yeuthich.html"><i class="fas fa-heart"></i> Yêu thích</a>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+          <h1 class="title">XU HƯỚNG</h1>
+          <div class="header-actions">
+            <button class="header-login-btn" id="showLoginModal">
+              <i class="fas fa-user"></i> Đăng nhập
+            </button>
+            <div id="userLoggedIn" style="display: none">
+              <button class="header-login-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Đăng xuất
+              </button>
+            </div>
+            <div class="dropdown">
+              <button class="filter-btn" id="dropdownBtn">
+                Thể loại <span class="chevron">&#9662;</span>
+              </button>
+              <div class="dropdown-content" id="dropdownContent">
+                <button data-category="tat-ca">Tất cả</button>
+                <button data-category="kinh-di">Kinh dị</button>
+                <button data-category="hai">Hài</button>
+                <button data-category="lang-man">Lãng mạn</button>
+                <button data-category="co-tich">Cổ tích</button>
+                <button data-category="tieuthuyet">Tiểu Thuyết</button>
+              </div>
+            </div>
+          </div>
+        </header>
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const dropdownBtn = document.getElementById("dropdownBtn");
+            const dropdownContent = document.getElementById("dropdownContent");
+
+            // Toggle dropdown khi click
+            dropdownBtn.addEventListener("click", function (e) {
+              e.stopPropagation(); // Ngăn sự kiện nổi bọt
+              dropdownContent.classList.toggle("show");
+            });
+
+            // Đóng dropdown khi click ra ngoài
+            document.addEventListener("click", function () {
+              dropdownContent.classList.remove("show");
+            });
+          });
+        </script>
+
+        <!-- Top Programs Section -->
+        <section class="ranking-section">
+          <h2 class="section-title">
+            <i class="fas fa-crown"></i>Top Chương Trình
+          </h2>
+          <div class="program-list">
+            <button
+              class="program-item"
+              data-category="kinh-di"
+              onclick="window.location.href='trangchitiet1.html'"
+            >
+              <img
+                src="assets/images/Tri kỷ cảm xúc.jpg"
+                alt="Tri Kỳ Cảm Xúc"
+                class="program-img"
+              />
+              <div class="program-info">
+                <p>Tri Kỳ Cảm Xúc</p>
+                <p>Web5ngay</p>
+              </div>
+            </button>
+
+            <button
+              class="program-item"
+              data-category="lang-man"
+              onclick="window.location.href='trangchitiet3.html'"
+            >
+              <img
+                src="assets/images/Thuần Podcast.jpg"
+                alt="Thuần Podcast"
+                class="program-img"
+              />
+              <div class="program-info">
+                <p>Thuần Podcast</p>
+                <p>Thuần</p>
+              </div>
+            </button>
+
+            <button
+              class="program-item"
+              data-category="lang-man"
+              onclick="window.location.href='trangchitiet2.html'"
+            >
+              <img
+                src="assets/images/Vì sao thế nhỉ.jpg"
+                alt="Vì sao thế nhỉ?"
+                class="program-img"
+              />
+              <div class="program-info">
+                <p>Vì sao thế nhỉ?</p>
+                <p>Vì sao thế nhỉ?</p>
+              </div>
+            </button>
+
+            <button
+              class="program-item"
+              data-category="co-tich"
+              onclick="window.location.href='trangchitiet1.html'"
+            >
+              <img
+                src="assets/images/Better Version.jpg"
+                alt="Better Version"
+                class="program-img"
+              />
+              <div class="program-info">
+                <p>Better Version</p>
+                <p>Better Version</p>
+              </div>
+            </button>
+
+            <button
+              class="program-item"
+              data-category="kinh-di"
+              onclick="window.location.href='trangchitiet1.html'"
+            >
+              <img
+                src="assets/images/6 Minute English.jpg"
+                alt="6 Minute English"
+                class="program-img"
+              />
+              <div class="program-info">
+                <p>6 Minute English</p>
+                <p>BBC Radio</p>
+              </div>
+            </button>
+
+            <button
+              class="program-item"
+              data-category="hai"
+              onclick="window.location.href='trangchitiet1.html'"
+            >
+              <img
+                src="assets/images/Kể cho tôi nghe.jpg"
+                alt="Kể Cho Tôi Nghe"
+                class="program-img"
+              />
+              <div class="program-info">
+                <p>Kể cho tôi nghe</p>
+                <p>Radio Người giữ kỷ niệm</p>
+              </div>
+            </button>
+
+            <button
+              class="program-item"
+              data-category="kinh-di"
+              onclick="window.location.href='trangchitiet1.html'"
+            >
+              <img
+                src="assets/images/How to Fix the Internet.jpg"
+                alt="How to Fix the Internet"
+                class="program-img"
+              />
+              <div class="program-info">
+                <p>How to Fix the Internet</p>
+                <p>Electronic Frontier Foundation</p>
+              </div>
+            </button>
+
+            <button
+              class="program-item"
+              data-category="kinh-di"
+              onclick="window.location.href='trangchitiet1.html'"
+            >
+              <img
+                src="assets/images/kinhdi.png"
+                alt="Hoàng Nam"
+                class="program-img"
+              />
+              <div class="program-info">
+                <p>20 Câu chuyện ma Việt Nam</p>
+                <p>Hoàng Nam</p>
+              </div>
+            </button>
+
+            <button
+              class="program-item"
+              data-category="tieuthuyet"
+              onclick="window.location.href='trangchitiet1.html'"
+            >
+              <img
+                src="assets/images/daithanh.png"
+                alt="Hoàng Nam"
+                class="program-img"
+              />
+              <div class="program-info">
+                <p>Đại thánh trở về!</p>
+                <p>Kênh tiểu thuyết</p>
+              </div>
+            </button>
+
+            <button
+              class="program-item"
+              data-category="tieuthuyet"
+              onclick="window.location.href='trangchitiet1.html'"
+            >
+              <img
+                src="assets/images/tuoitho.png"
+                alt="Hoàng Nam"
+                class="program-img"
+              />
+              <div class="program-info">
+                <p>Tuổi Thơ và Con Diều</p>
+                <p>Kênh tiểu thuyết</p>
+              </div>
+            </button>
+
+            <button
+              class="program-item"
+              data-category="lang-man"
+              onclick="window.location.href='trangchitiet1.html'"
+            >
+              <img
+                src="assets/images/thanhxuan2.png"
+                alt="Hoàng Nam"
+                class="program-img"
+              />
+              <div class="program-info">
+                <p>Thanh Xuân của Cậu!</p>
+                <p>Kênh tiểu thuyết</p>
+              </div>
+            </button>
+
+            <button
+              class="program-item"
+              data-category="hai"
+              onclick="window.location.href='trangchitiet1.html'"
+            >
+              <img
+                src="assets/images/thanhxuan.png"
+                alt="Hoàng Nam"
+                class="program-img"
+              />
+              <div class="program-info">
+                <p>Tuổi trẻ đáng giá 2 tỷ!</p>
+                <p>Xàm và Ngố</p>
+              </div>
+            </button>
+
+            <button
+              class="program-item"
+              data-category="lang-man"
+              onclick="window.location.href='trangchitiet1.html'"
+            >
+              <img
+                src="assets/images/duongtoichoemve.png"
+                alt="Hoàng Nam"
+                class="program-img"
+              />
+              <div class="program-info">
+                <p>Đường Tôi Chở Phương Về!</p>
+                <p>Thiện Khiêm</p>
+              </div>
+            </button>
+
+            <button
+              class="program-item"
+              data-category="lang-man"
+              onclick="window.location.href='trangchitiet1.html'"
+            >
+              <img
+                src="assets/images/muaha.png"
+                alt="Hoàng Nam"
+                class="program-img"
+              />
+              <div class="program-info">
+                <p>Mùa Hạ Năm Ấy!</p>
+                <p>Ngọc Hân</p>
+              </div>
+            </button>
+          </div>
+        </section>
+        <div class="marquee-bar">
+          <div class="marquee-content">
+            <span>Tìm kiếm theo từ khóa trong từng tập.</span>
+            <span>Chuyển đến đoạn quan trọng.</span>
+            <span
+              >Khả dụng với nội dung tiếng Anh, tiếng Pháp, tiếng Đức và tiếng
+              Tây Ban Nha.</span
+            >
+          </div>
+        </div>
+
+        <!-- Top Episodes Section -->
+        <section class="ranking-section">
+          <h2 class="section-title">
+            <i class="fas fa-calendar"></i>Tập Mới Nhất
+          </h2>
+          <div class="episode-list">
+            <button
+              class="episode-item"
+              onclick="playEpisode('Vì Sao Thế Nhỉ ?', 'assets/mp3/Visaothenhi(1).mp3', 'assets/images/visaothenhi.jpg')"
+            >
+              <img
+                src="assets/images/visaothenhi.jpg"
+                alt="Tập 1"
+                class="episode-img"
+              />
+              <div class="episode-info">
+                <div class="episode-meta">
+                  <span>8 GIỜ TRƯỚC</span>
+                </div>
+                <p class="episode-title">Vì Sao Thế Nhỉ ?</p>
+                <p class="episode-duration">19 phút</p>
+              </div>
+            </button>
+
+            <button
+              class="episode-item"
+              onclick="playEpisode('How To Fix The Internet ?', 'assets/mp3/fixinternet.mp3', 'assets/images/fixinternet.jpg')"
+            >
+              <img
+                src="assets/images/fixinternet.jpg"
+                alt="Tập 1"
+                class="episode-img"
+              />
+              <div class="episode-info">
+                <div class="episode-meta">
+                  <span>12 GIỜ TRƯỚC</span>
+                </div>
+                <p class="episode-title">How To Fix The Internet</p>
+                <p class="episode-duration">19 phút</p>
+              </div>
+            </button>
+
+            <button
+              class="episode-item"
+              onclick="playEpisode('Tri Kỷ Cảm Xúc(1)', 'assets/mp3/trikycamxuc(1).mp3', 'assets/images/trikycamxuc.jpg')"
+            >
+              <img
+                src="assets/images/trikycamxuc.jpg"
+                alt="Tập 1"
+                class="episode-img"
+              />
+              <div class="episode-info">
+                <div class="episode-meta">
+                  <span>20 GIỜ TRƯỚC</span>
+                </div>
+                <p class="episode-title">Tri Kỷ Cảm Xúc #384</p>
+                <p class="episode-duration">19 phút</p>
+              </div>
+            </button>
+
+            <button
+              class="episode-item"
+              onclick="playEpisode('Kể Cho Tôi Nghe', 'assets/mp3/kechotoinghe.mp3', 'assets/images/kechotoinghe.jpg')"
+            >
+              <img
+                src="assets/images/kechotoinghe.jpg"
+                alt="Tập 1"
+                class="episode-img"
+              />
+              <div class="episode-info">
+                <div class="episode-meta">
+                  <span>20 GIỜ TRƯỚC</span>
+                </div>
+                <p class="episode-title">Kể Cho Tôi Nghe</p>
+                <p class="episode-duration">19 phút</p>
+              </div>
+            </button>
+
+            <button
+              class="episode-item"
+              onclick="playEpisode('Mùa Hạ Năm Ấy', 'assets/mp3/Muahanamay(1).mp3', 'assets/images/muahanamay.jpg')"
+            >
+              <img
+                src="assets/images/muahanamay.jpg"
+                alt="Tập 1"
+                class="episode-img"
+              />
+              <div class="episode-info">
+                <div class="episode-meta">
+                  <span>1 NGÀY TRƯỚC</span>
+                </div>
+                <p class="episode-title">Mùa Hạ Năm Ấy</p>
+                <p class="episode-duration">19 phút</p>
+              </div>
+            </button>
+
+            <button
+              class="episode-item"
+              onclick="playEpisode('Tuổi Thơ Và Con Diều', 'assets/mp3/Tuoithowvacanhdieu.mp3', 'assets/images/ttvacd.jpg')"
+            >
+              <img
+                src="assets/images/ttvacd.jpg"
+                alt="Tập 1"
+                class="episode-img"
+              />
+              <div class="episode-info">
+                <div class="episode-meta">
+                  <span>2 NGÀY TRƯỚC</span>
+                </div>
+                <p class="episode-title">Tuổi Thơ Và Con Diều</p>
+                <p class="episode-duration">19 phút</p>
+              </div>
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="features/signin/SigninModal.js"></script>
+
+    <script>
+      // Gán sự kiện lọc khi chọn danh mục
+      document.querySelectorAll("#dropdownContent button").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const selectedCategory = btn.getAttribute("data-category");
+          document.querySelectorAll(".program-item").forEach((item) => {
+            const cat = item.getAttribute("data-category");
+            if (selectedCategory === "tat-ca" || cat === selectedCategory) {
+              item.style.display = "block";
+            } else {
+              item.style.display = "none";
+            }
+          });
+        });
+      });
+    </script>
+    <div class="audio-player" id="playerBox">
+      <div class="audio-header">
+        <img id="playerImg" src="" alt="Ảnh" />
+        <div class="audio-info">
+          <div class="audio-title" id="playerTitle">Đang phát</div>
+          <audio
+            id="audioPlayer"
+            controls
+            style="width: 100%; margin-top: 8px"
+          ></audio>
+        </div>
+      </div>
+      <div class="audio-controls">
+        <button class="btn btn-toggle" onclick="toggleSize()">
+          🔄 Thu nhỏ / Phóng to
+        </button>
+        <button class="btn btn-close" onclick="closePlayer()">❌ Đóng</button>
+      </div>
+    </div>
+    <script src="context/trangchitiet.js"></script>
+    <div id="footer"></div>
+    <script>
+      fetch("components/footer/Footer.html")
+        .then((res) => res.text())
+        .then((data) => {
+          document.getElementById("footer").innerHTML = data;
+        });
+    </script>
+  </body>
+</html>
