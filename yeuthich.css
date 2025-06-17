@@ -1,0 +1,65 @@
+/* Trang yêu thích */
+.not-logged-in {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  text-align: center;
+  padding: 20px;
+}
+
+.not-logged-in i {
+  font-size: 50px;
+  color: #dc2626;
+  margin-bottom: 20px;
+}
+
+.not-logged-in h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.not-logged-in p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.not-logged-in .login-btn {
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.not-logged-in .login-btn:hover {
+  background-color: #b91c1c;
+}
+
+.favorites-list {
+  display: none; /* Ẩn ban đầu */
+}
+
+.favorites-list .section-title {
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.favorites-list .section-title i {
+  color: #141414;
+}
+
+.program-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+}
